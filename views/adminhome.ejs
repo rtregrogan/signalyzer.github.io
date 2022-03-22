@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    
+    <!-- ion icons -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+	<!-- ion icons -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link rel="icon" href="https://dragonadm.neocities.org/signalizer/Capture.PNG" type="image/gif" sizes="16x16">
+    <title>Admin Home</title>
+    <style>
+        body {
+            background: linear-gradient(to right,#36d1dc,#5b86e5);
+            font-family: Poppins;
+            text-align: center;
+            color: white;
+            }
+        h3{
+            font-weight: bold;
+        }
+        hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 2px solid white;
+        }
+        .container {
+            padding: 10px;
+            margin-top: 80px;
+            background-color: transparent;
+            width: 100%;
+            border-radius: 10px;
+        }
+        .item {
+            width: 100px;
+            padding: 10px;
+            display: inline-block;
+            vertical-align: middle
+        }
+        .navbar {
+            margin-bottom: 0px;
+        }
+        .btn-outline-info {
+            color: white;
+            border: 2px solid white;
+            font-weight: bold;
+        }
+        #npdf {
+            margin-bottom: 10px;
+            padding: 30px;
+            border-radius: 20px;
+            background:  rgb(2, 132, 155);
+        }
+
+        #pdf {
+            margin-bottom: 10px;
+           /* border: 2px solid white;*/
+            padding: 30px;
+            border-radius: 20px;
+            background:  rgb(2, 132, 155);
+        }
+        #btnstart{
+            width: 60%;
+            border-style: solid;
+            margin: 10px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        #lgo {
+            margin-bottom: 0;
+        }
+
+        .col-md-4 {
+            text-align: center;
+        }
+
+        #welcome {
+            color: white;
+        }
+
+        .item {
+            width: auto;
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .table-danger, .table-danger>td, .table-danger>th {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+        .table-info, .table-info>td, .table-info>th {
+            background-color: transparent;
+            border: 2px solid white;
+        }
+        #oghead {
+        background: rgb(2, 132, 155);
+        }
+        #exampleModalLabel{
+            color: darkslategrey;
+        }
+        .text-white { 
+            padding: 10px;
+        }
+        .footer{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color:#343a40;
+            color: white;
+            float:left;
+            text-align: left;
+            font-size: 12px;
+            padding: 10px;
+        }
+        p{
+            margin: 0;
+        }
+        /* tcf css starts here: */
+        #tcf {
+            margin-right: 10px;
+        }
+        #tcfmodalcontent {
+            background: rgb(2, 132, 155);
+            width: max-content;
+        }
+        .tcffield {
+            border: 1px solid white;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }
+        .tcffield span{
+            display: block;
+        }
+        .tcffieldTitle {
+            font-size: 20px;
+        }
+        .tcffield select{
+            height: 40px;
+            width: 400px;
+        }
+        .projectInput {
+            height: 40px;
+            width: 400px;
+        }
+        
+
+        /* tcf tooltip starts here: */
+        .addtcfValue{
+            position: relative;
+        }
+
+        .addtcfValue .addtcfValueTooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            left: 105%;
+        }
+
+        .addtcfValue:hover .addtcfValueTooltip{
+            visibility: visible;
+        }
+
+    </style>
+</head>
+<body>
+        <!-- navbar start -->
+    <div class="pos-f-t">
+      <!--new nav start-->
+      <nav class="navbar navbar-light fixed-top bg-dark">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/adminhome" id="welcome">Welcome, <%= user.firstName %>!</a>
+          </div>
+          <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <a class="text-white" href="/adminhome">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white" href="/adminmonitor">Monitor</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white" href="/adminschedule">Scheduling</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white" href="/rostermanagement">Roster</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white" href="/managetask">Manage Tasks</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white" href="/adminpwreset">Reset Password</a>
+              </li>
+              <li>
+                <button id="tcf" class="btn btn-success btn-sm" data-toggle="modal" data-target="#tcfmodalwindow"><strong>Task Completion Form</strong></button>
+              </li>
+              <form action="/logout" method="POST" id="lgo">
+                <button class="btn btn-danger btn-sm"><strong>Logout</strong></button>
+              </form>
+          </ul>
+        </div>
+      </nav>
+      <!--new nav end-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- non project delivery form -->
+                <h3>Select Tasks</h3>
+                <form action="/addagenttask" method="POST" novalidate class="validated-form" id="npdf">
+                    <h4>Non Project Delivery</h4>
+                    <div class="form-group">
+                        <select name="taskName" class="form-control" required>
+                            <option value="">Select Non Project Delivery Tasks Here</option>
+                            <option value="Shift">Shift</option>
+                        <% for (let np of npd) { %>
+                            <option value="<%=np.taskName%>"><%=np.taskName%></option>
+                        <% } %>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" id="btnstart">START</button>
+                    </div>
+                </form>
+                <!-- project delivery form -->
+                <form action="/addagenttask" method="POST" novalidate class="validated-form" id="pdf">
+                    <h4>Project Delivery</h4>
+                    <div class="form-group">
+                        <select name="taskName" class="form-control" required>
+                            <option value="">Select Project Delivery Tasks Here</option>
+                        <% for (let p of pd) { %>
+                            <option value="<%=p.taskName%>"><%=p.taskName%></option>
+                        <% } %>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-success" id="btnstart">START</button>
+                    </div>
+                </form>
+            </div>
+            <!-- on going tasks table -->
+            <div class="col-md-8">
+                <% if(pendingRequestsDatatoSend && pendingRequestsDatatoSend.length){ %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong><%=pendingRequestsDatatoSend.length%> Pending Leave Requests <a href="/adminschedule">Click Here</a></strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %> 
+
+
+                <% if(tcfnotEnough && tcfnotEnough.length){ %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong><%=tcfnotEnough%></strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %> 
+                <h3>On Going Tasks</h3>
+                <table class="table">
+                    <thead id="oghead">
+                      <tr class="table-danger">
+                        <th scope="col">Task ID</th>
+                        <th scope="col">Task Name</th>
+                        <th scope="col">Start</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let at of ongoingTasks) { %>
+                            <tr class="table-danger ong">
+                                <td><%= at.taskID %></td>
+                                <td><%= at.taskName %></td>
+                                <td class="ongtime"><%= at.startDate %></td>
+                                <td class="runtime"></td>
+                                <td><button class="btn btn-danger" data-toggle="modal" data-target="#<%= at.userName %><%= at.taskID %>">END</button></td>
+                            </tr>
+
+                            <div class="modal fade" id="<%= at.userName %><%= at.taskID %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel"><%= at.taskName %></h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form action="/agenttaskput?_method=PUT" method="POST">
+                                            <div class="form-group">
+                                                <textarea name="comments" placeholder="Comments for <%= at.taskName %>" class="form-control"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <input name="taskID" class="form-control" value="<%= at.taskID %>" hidden></input>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-danger">END</button>
+                                            </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h3>History</h3>
+            <table class="table">
+                <tr class="table-info" id="oghead">
+                    <th scope="col">Task ID</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Comments</th>
+                </tr>
+                <tbody>
+                    <% for (let et of results) { %>
+                        <tr class="table-info">
+                            <td><%= et.taskID %></td>
+                            <td><%= et.taskName %></td>
+                            <td><%= et.startDate %></td>
+                            <td><%= et.endDate %></td>
+                            <td><%= et.durationTime %></td>
+                            <td><%= et.comments %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="tcfmodal">
+            <div class="modal fade" id="tcfmodalwindow" tabindex="-1" role="dialog" aria-labelledby="tcfmodallabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" id="tcfmodalcontent">
+                        <div class="modal-header">
+                            <span>Task Completion Form</span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+
+
+                            <div class="tcfForm">
+                                <form action="/tcfsubmit" method="POST">
+
+                                    <div class="tcffield">
+                                        <span class="tcffieldTitle">Task Type</span>
+                                        <span class="tcffieldDescription">Select your Task in the dropdown list.</span>
+                                        <select name="tasktypeSelect" id="tasktypeSelect" required>
+                                            <option value="" id="tasktypechoosenoval">Choose</option>
+                                            <% for (let tcfTT of tcftasktype){ %>
+                                                <option value="<%=tcfTT.TaskType%>" class="tasktypeoptionclass"><%=tcfTT.TaskType%></option>
+                                            <% } %>
+                                        </select>
+                                        <button type="button" class="btn btn-success addtcfValue" id="tasktypeaddtcfValuebtn" onclick="gettcffield(this.id)">
+                                            <i class="icon ion-plus-round"></i>
+                                            <span class="addtcfValueTooltip">Add Task Type</span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger addtcfValue" onclick="deletetasktype()">
+                                            <i class="icon ion-close-round"></i>
+                                            <span class="addtcfValueTooltip">Remove Task Type</span>
+                                        </button>
+                                        <div class="addtcfTask" id="tasktypeaddtcfValuebtnform" hidden>
+                                            <input type="text" name="TaskTypeEntry" id="TaskTypeEntry">
+                                            <button type="button" class="btn btn-success" onclick="addTaskType()">ADD</button>
+                                            <i class="icon ion-looping" id="addtasktypeloading" hidden></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="tcffield">
+                                        <span class="tcffieldTitle">Project</span>
+                                        <span class="tcffieldDescription">For what Category you are performing the task.</span>
+                                        <input name="project" class="projectInput" type="text" placeholder="Your answer" required>
+                                    </div>
+
+                                    <div class="tcffield">
+                                        <span class="tcffieldTitle">Catalog</span>
+                                        <span class="tcffieldDescription">On what Redbull catalog you are performing the task.</span>
+                                        <select name="catalogtcf" id="catalogtcf" required>
+                                            <option value="" id="catalogchoosenoval">Choose</option>
+                                            <% for (let tcfcat of tcfcatalog){ %>
+                                                <option value="<%=tcfcat.Catalog%>" class="catalogoptionclass"><%=tcfcat.Catalog%></option>
+                                            <% } %>
+                                            <option value="N/A">N/A</option>
+                                        </select>
+                                        <button type="button" class="btn btn-success addtcfValue" id="catalogaddtcfValuebtn" onclick="gettcffield(this.id)">
+                                            <i class="icon ion-plus-round"></i>
+                                            <span class="addtcfValueTooltip">Add Catalog</span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger addtcfValue" onclick="deletecatalog()">
+                                            <i class="icon ion-close-round"></i>
+                                            <span class="addtcfValueTooltip">Remove Catalog</span>
+                                        </button>
+                                        <div class="addtcfTask" id="catalogaddtcfValuebtnform" hidden>
+                                            <input type="text" name="CatalogEntry" id="CatalogEntry">
+                                            <button type="button" class="btn btn-success" onclick="addCatalog()">ADD</button>
+                                            <i class="icon ion-looping" id="addcatalogloading" hidden></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="tcffield">
+                                        <span class="tcffieldTitle">Time Spent</span>
+                                        <span class="tcffieldDescription">How long did you perform the task.</span>
+                                        <input name="Hrs" type="number" min="0" max="99" placeholder="Hrs" required> :
+                                        <input name="Min" type="number" min="0" max="99" placeholder="Min" required> :
+                                        <input name="Sec" type="number" min="0" max="99" placeholder="Sec" required>
+                                    </div>
+                                    <div class="tcffield">
+                                        <span class="tcffieldTitle">Status</span>
+                                        <span class="tcffieldDescription">Status of the Task.</span>
+                                        <select name="status" id="" required>
+                                            <option value="">Choose</option>
+                                            <option value="Ongoing">Ongoing</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="tcffield">
+                                        <span class="tcffieldTitle">Assigned by</span>
+                                        <span class="tcffieldDescription">Who assigned the task to you.</span>
+                                        <select name="assignedby" id="assignedbyselect" required>
+                                            <option value="" id="assignedbyoptionnoval">Choose</option>
+                                            <% for (let assgn of tcfassignedby){ %>
+                                                <option value="<%=assgn.Assigned%>" class="assignedoptionclass"><%=assgn.Assigned%></option>
+                                            <% } %>
+                                            <option value="N/A">N/A</option>
+                                        </select>
+                                        <button type="button" class="btn btn-success addtcfValue" id="assignedbyaddtcfValuebtn" onclick="gettcffield(this.id)">
+                                            <i class="icon ion-plus-round"></i>
+                                            <span class="addtcfValueTooltip">Add Assigned by</span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger addtcfValue" onclick="deleteassignedby()">
+                                            <i class="icon ion-close-round"></i>
+                                            <span class="addtcfValueTooltip">Remove Assigned by</span>
+                                        </button>
+                                        <div class="addtcfTask" id="assignedbyaddtcfValuebtnform" hidden>
+                                            <input type="text" name="assignedbyEntry" id="assignedbyEntry">
+                                            <button type="button" class="btn btn-success" onclick="addassignedby()">ADD</button>
+                                            <i class="icon ion-looping" id="addassignedbyloading" hidden></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="tcffield">
+                                        <span class="tcffieldTitle">Billing Type</span>
+                                        <span class="tcffieldDescription">Tasks provided by Client is Project Delivery. Admin tasks are Non-Project Delivery.</span>
+                                        <select name="billtype" id="" required>
+                                            <option value="">Choose</option>
+                                            <option value="Project Delivery">Project Delivery</option>
+                                            <option value="Non-Project Delivery">Non-Project Delivery</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-success">SUBMIT</button>
+                                </form>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form action="/adminhomepaginate" method="POST">
+            <label for="cars">Select page:</label>
+            <select id="cars" name="page">
+                <% for (let page of p){ %>
+                    <option value="<%= page %>"><%= page %></option>
+                <% } %>
+            </select>
+            <input type="submit">
+        </form>
+
+    </div><br>
+          <!--Footer Start-->
+          <div class="footer" style="margin-bottom:0">
+            <p>Signalyzer v2.0™ | Created by Rupert Tianzon & Ralph Lawrence Villamor</p>
+        </div>
+        <!--Footer End-->
+  
+    <script>
+        function str() {
+            document.getElementById("nptask").submit();
+        }
+
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.validated-form')
+
+            // Loop over them and prevent submission
+            Array.from(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+        function convertTZ(date, tzString) {
+            return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+        }
+
+        let stime = document.querySelectorAll('.ongtime');
+        let runtime = document.querySelectorAll('.runtime');
+        setInterval(function() {
+            fetch('/getservertime/api')
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    let servertime = data.servertime
+                    for (i=0; i<stime.length; i++) {
+                    let actime = stime[i].innerHTML
+                    let start = new Date(actime).getTime()
+                    let now = new Date(servertime).getTime()
+                    let distance = now - start;
+                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    runtime[i].innerHTML=hours + "h " + minutes + "m " + seconds + "s"
+                    }
+                })
+        }, 1000)
+
+        // tcf script starts here:
+
+        function gettcffield(addtcfValuebtn){
+            // console.log(addtcfValuebtn)
+            let addtcfValuebtnForm = document.getElementById(`${addtcfValuebtn}form`)
+            // console.log(addtcfValuebtnForm)
+            if(addtcfValuebtnForm.hidden){
+                addtcfValuebtnForm.hidden = false
+            } else {
+                addtcfValuebtnForm.hidden = true
+            }
+        }
+
+
+        // adding task type starts here:
+        async function addTaskType(){
+            let TaskTypeEntry = document.getElementById('TaskTypeEntry')
+            let addtasktypeloading = document.getElementById('addtasktypeloading')
+            addtasktypeloading.hidden = false
+
+            await fetch('/alltcfentry/addtasktype', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+		            'Content-Type': 'application/json'
+	            },
+                body: JSON.stringify({
+                    TaskTypeEntry: TaskTypeEntry.value,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.TaskType)
+                let tasktypeaddtcfValuebtnform = document.getElementById('tasktypeaddtcfValuebtnform')
+                addtasktypeloading.hidden = true
+                tasktypeaddtcfValuebtnform.hidden = true
+
+                let tasktypeSelect = document.getElementById('tasktypeSelect')
+                let tasktypechoosenoval = document.getElementById('tasktypechoosenoval')
+                let newtasktypeoption = document.createElement('option')
+                newtasktypeoption.innerText = data.TaskType
+                newtasktypeoption.value = data.TaskType
+                newtasktypeoption.className = 'tasktypeoptionclass'
+                tasktypeSelect.appendChild(newtasktypeoption)
+                tasktypechoosenoval.after(newtasktypeoption)
+            })
+        }
+
+        // deleting tasktype here:
+        async function deletetasktype(){
+            let tasktypeSelect = document.getElementById('tasktypeSelect')
+            console.log(tasktypeSelect.value)
+
+            await fetch('/alltcfentry/deletetasktype', {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+		            'Content-Type': 'application/json'
+	            },
+                body: JSON.stringify({
+                    TaskTypetoDelete: tasktypeSelect.value,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                let tasktypeoptionclass = document.querySelectorAll('.tasktypeoptionclass')
+                for(i=0; i<tasktypeoptionclass.length; i++){
+                    console.log(tasktypeoptionclass[i].innerHTML)
+                    if(tasktypeoptionclass[i].innerHTML === data.deletedtasktype){
+                        console.log(`deleted ${data.deletedtasktype}`)
+                        tasktypeoptionclass[i].remove()
+                    }
+                    
+                }
+            })
+        }
+
+
+        // add catalog here:
+        async function addCatalog(){
+            let CatalogEntry = document.getElementById('CatalogEntry')
+            let addcatalogloading = document.getElementById('addcatalogloading')
+            addcatalogloading.hidden = false
+
+            await fetch('/alltcfentry/addcatalog', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+		            'Content-Type': 'application/json'
+	            },
+                body: JSON.stringify({
+                    CatalogEntry: CatalogEntry.value,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.Catalog)
+                let catalogaddtcfValuebtnform = document.getElementById('catalogaddtcfValuebtnform')
+                addcatalogloading.hidden = true
+                catalogaddtcfValuebtnform.hidden = true
+
+                let catalogtcf = document.getElementById('catalogtcf')
+                let catalogchoosenoval = document.getElementById('catalogchoosenoval')
+                let newcatalogoption = document.createElement('option')
+                newcatalogoption.innerText = data.Catalog
+                newcatalogoption.value = data.Catalog
+                newcatalogoption.className = 'catalogoptionclass'
+                catalogtcf.appendChild(newcatalogoption)
+                catalogchoosenoval.after(newcatalogoption)
+            })
+        }
+
+        // deleting catalog here:
+        async function deletecatalog(){
+            let catalogtcf = document.getElementById('catalogtcf')
+            console.log(catalogtcf.value)
+
+            await fetch('/alltcfentry/deletecatalog', {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+		            'Content-Type': 'application/json'
+	            },
+                body: JSON.stringify({
+                    catalogtoDelete: catalogtcf.value,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                let catalogoptionclass = document.querySelectorAll('.catalogoptionclass')
+                for(i=0; i<catalogoptionclass.length; i++){
+                    console.log(catalogoptionclass[i].innerHTML)
+                    if(catalogoptionclass[i].innerHTML === data.deletedcatalog){
+                        console.log(`deleted ${data.deletedcatalog}`)
+                        catalogoptionclass[i].remove()
+                    }
+                    
+                }
+            })
+        }
+
+        // add assigned by here:
+        async function addassignedby(){
+            let assignedbyEntry = document.getElementById('assignedbyEntry')
+            let addassignedbyloading = document.getElementById('addassignedbyloading')
+            addassignedbyloading.hidden = false
+
+            await fetch('/alltcfentry/addassignedby', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+		            'Content-Type': 'application/json'
+	            },
+                body: JSON.stringify({
+                    assignedbyEntry: assignedbyEntry.value,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.Assigned)
+                let assignedbyaddtcfValuebtnform = document.getElementById('assignedbyaddtcfValuebtnform')
+                addassignedbyloading.hidden = true
+                assignedbyaddtcfValuebtnform.hidden = true
+
+                let assignedbyselect = document.getElementById('assignedbyselect')
+                let assignedbyoptionnoval = document.getElementById('assignedbyoptionnoval')
+                let newassignedbyoption = document.createElement('option')
+                newassignedbyoption.innerText = data.Assigned
+                newassignedbyoption.value = data.Assigned
+                newassignedbyoption.className = 'assignedoptionclass'
+                assignedbyselect.appendChild(newassignedbyoption)
+                assignedbyoptionnoval.after(newassignedbyoption)
+            })
+        }
+
+        // deleting assigned by here:
+        async function deleteassignedby(){
+            let assignedbyselect = document.getElementById('assignedbyselect')
+            console.log(assignedbyselect.value)
+
+            await fetch('/alltcfentry/deleteassignedby', {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+		            'Content-Type': 'application/json'
+	            },
+                body: JSON.stringify({
+                    assignedbytoDelete: assignedbyselect.value,
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                let assignedoptionclass = document.querySelectorAll('.assignedoptionclass')
+                for(i=0; i<assignedoptionclass.length; i++){
+                    console.log(assignedoptionclass[i].innerHTML)
+                    if(assignedoptionclass[i].innerHTML === data.deletedAssigned){
+                        console.log(`deleted ${data.deletedAssigned}`)
+                        assignedoptionclass[i].remove()
+                    }
+                }
+            })
+        }
+
+
+
+    </script>
+</body>
+</html>

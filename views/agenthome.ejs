@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+    <link rel="icon" href="https://dragonadm.neocities.org/signalizer/Capture.PNG" type="image/gif" sizes="16x16">
+    <title>Agent Home</title>
+    <%- include('css/style')%>
+</head>
+<body>
+    <!--new nav start-->
+    <div class="topnav">
+        <a href="/agenthome" id="welcome">Welcome, <%= user.firstName %>!</a>
+        <a href="/agenthome">Home</a>
+        <a href="/schedule/agent">Schedule</a>
+        <a href="/agentpwreset">Reset Password</a>
+        <button id="tcfbtn" onclick="gettcfForm()"><strong>Task Completion Form</strong></button>
+        <div class="navbtns">
+            <form action="/logout" method="POST">
+                <button id="logoutBTN"><strong>Logout</strong></button>
+            </form>
+        </div>
+    </div>
+    <!--new nav end-->
+
+    <div class="mainDiv">
+        <div class="selectTaskDiv">
+            <form action="/addagenttask" method="POST" novalidate class="validated-form" id="npdf">
+                <h4 class="selectTitle">Non Project Delivery</h4>
+                <div class="form-group">
+                    <select name="taskName" class="form-control selectTaskOpn" required>
+                        <option value="">Select Non Project Delivery Tasks Here</option>
+                        <option value="Shift">Shift</option>
+                        <% for (let np of npd) { %>
+                            <option value="<%=np.taskName%>"><%=np.taskName%></option>
+                        <% } %>
+                    </select>
+                </div>
+                <div>
+                    <button class="btnstart">START</button>
+                </div>
+            </form>
+
+                <form action="/addagenttask" method="POST" novalidate class="validated-form" id="pdf">
+                    <h4 class="selectTitle">Project Delivery</h4>
+                    <div class="form-group">
+                        <select name="taskName" class="form-control selectTaskOpn" required>
+                            <option value="">Select Project Delivery Tasks Here</option>
+                        <% for (let p of pd) { %>
+                            <option value="<%=p.taskName%>"><%=p.taskName%></option>
+                        <% } %>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btnstart">START</button>
+                    </div>
+                </form>
+        </div>
+
+        <div class="onGoingTaskDiv">
+            <% if(tcfnotEnough && tcfnotEnough.length){ %>
+                <div class="alert-danger" role="alert" id="AlertTCFDanger">
+                <strong><%=tcfnotEnough%></strong>
+                    <button type="button" class="closeAlert">
+                        <span aria-hidden="true" id="closeAlertDanger" onclick="closeAlertDanger()">&times;</span>
+                    </button>
+                </div>
+            <% } %>
+
+            <h3>On Going Tasks</h3>
+            <table class="table">
+                <thead id="oghead">
+                    <tr class="table-danger">
+                        <th scope="col">Task ID</th>
+                        <th scope="col">Task Name</th>
+                        <th scope="col">Start</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let at of ongoingTasks) { %>
+                        <tr class="table-danger">
+                            <td><%= at.taskID %></td>
+                            <td><%= at.taskName %></td>
+                            <td class="ongtime"><%= at.startDate %></td>
+                            <td class="runtime"></td>
+                            <td><button class="endTaskBtn" id="btn<%= at.userName %><%= at.taskID %>" onclick="getEndModal(this.id)">END</button></td>
+                        </tr>
+
+                        <div class="modal" id="modal<%= at.userName %><%= at.taskID %>">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <span><%= at.taskName %></span>
+                                    <span class="close" id="close<%= at.userName %><%= at.taskID %>" onclick="closeModal(this.id)">&times;</span>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/agenttaskput?_method=PUT" method="POST">
+                                        <div class="form-group">
+                                            <textarea name="comments" placeholder="Comments for <%= at.taskName %>" class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="taskID" class="form-control" value="<%= at.taskID %>" hidden></input>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-danger endTaskBtn">END</button>
+                                        </div>
+                                  </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </tbody>
+            </table>
+
+            <% if(tcfforShiftDate && tcfforShiftDate.length){ %>
+                <div class="tcfEntries">
+                    <span>Your TCF Entries Today</span>
+                    <table class="table" class="table-danger">
+                        <thead>
+                            <th class="tcfToday">Task Type</th>
+                            <th class="tcfToday">Status</th>
+                            <th class="tcfToday">Assigned By</th>
+                            <th class="tcfToday">Billing Type</th>
+                            <th class="tcfToday">Total HRS</th>
+                        </thead>
+                        <% for (let tcffsd of tcfforShiftDate){ %>
+                            <tr class="table-danger">
+                                <td class="tcfToday"><%=tcffsd[1]%></td>
+                                <td class="tcfToday"><%=tcffsd[8]%></td>
+                                <td class="tcfToday"><%=tcffsd[9]%></td>
+                                <td class="tcfToday"><%=tcffsd[10]%></td>
+                                <td class="tcfToday"><%=parseFloat(tcffsd[7]).toFixed(2)%></td>
+                            </tr>
+                        <% } %>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="modal" id="tcfmodal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>Task Completion Form</span>
+                <span class="close" onclick="closetcfModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form action="/tcfsubmit" method="POST">
+                    <div class="tcffield">
+                        <span class="tcffieldTitle">Task Type</span>
+                        <span class="tcffieldDescription">Select your Task in the dropdown list.</span>
+                        <select name="tasktypeSelect" id="tasktypeSelect" required>
+                            <option value="" id="tasktypechoosenoval">Choose</option>
+                            <% for (let tcfTT of tcftasktype){ %>
+                                <option value="<%=tcfTT.TaskType%>" class="tasktypeoptionclass"><%=tcfTT.TaskType%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="tcffield">
+                        <span class="tcffieldTitle">Project</span>
+                        <span class="tcffieldDescription">For what Category you are performing the task.</span>
+                        <input name="project" class="projectInput" type="text" placeholder="Your answer" required>
+                    </div>
+                    <div class="tcffield">
+                        <span class="tcffieldTitle">Catalog</span>
+                        <span class="tcffieldDescription">On what Redbull catalog you are performing the task.</span>
+                        <select name="catalogtcf" id="catalogtcf" required>
+                            <option value="" id="catalogchoosenoval">Choose</option>
+                            <% for (let tcfcat of tcfcatalog){ %>
+                                <option value="<%=tcfcat.Catalog%>" class="catalogoptionclass"><%=tcfcat.Catalog%></option>
+                            <% } %>
+                            <option value="N/A">N/A</option>
+                        </select>
+                    </div>
+                    <div class="tcffield">
+                        <span class="tcffieldTitle">Time Spent</span>
+                        <span class="tcffieldDescription">How long did you perform the task.</span>
+                        <input class="timeNum" name="Hrs" type="number" min="0" max="99" placeholder="Hrs" required> :
+                        <input class="timeNum" name="Min" type="number" min="0" max="99" placeholder="Min" required> :
+                        <input class="timeNum" name="Sec" type="number" min="0" max="99" placeholder="Sec" required>
+                    </div>
+                    <div class="tcffield">
+                        <span class="tcffieldTitle">Status</span>
+                        <span class="tcffieldDescription">Status of the Task.</span>
+                        <select name="status" id="" required>
+                            <option value="">Choose</option>
+                            <option value="Ongoing">Ongoing</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="tcffield">
+                        <span class="tcffieldTitle">Assigned by</span>
+                        <span class="tcffieldDescription">Who assigned the task to you.</span>
+                        <select name="assignedby" id="assignedbyselect" required>
+                            <option value="" id="assignedbyoptionnoval">Choose</option>
+                            <% for (let assgn of tcfassignedby){ %>
+                                <option value="<%=assgn.Assigned%>" class="assignedoptionclass"><%=assgn.Assigned%></option>
+                            <% } %>
+                            <option value="N/A">N/A</option>
+                        </select>
+                    </div>
+                    <div class="tcffield">
+                        <span class="tcffieldTitle">Billing Type</span>
+                        <span class="tcffieldDescription">Tasks provided by Client is Project Delivery. Admin tasks are Non-Project Delivery.</span>
+                        <select name="billtype" id="" required>
+                            <option value="">Choose</option>
+                            <option value="Project Delivery">Project Delivery</option>
+                            <option value="Non-Project Delivery">Non-Project Delivery</option>
+                        </select>
+                    </div>
+                    <button class="submitTCF">SUBMIT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- navbar start -->
+    <div class="pos-f-t">
+      <div class="container">
+        <hr>
+        <div>
+            <h3>History</h3>
+            <table class="table">
+                <tr class="table-info" id="oghead">
+                    <th scope="col">Task ID</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Comments</th>
+                </tr>
+                <tbody>
+                    <% for (let et of results) { %>
+                        <tr class="table-info">
+                            <td><%= et.taskID %></td>
+                            <td><%= et.taskName %></td>
+                            <td><%= et.startDate %></td>
+                            <td><%= et.endDate %></td>
+                            <td><%= et.durationTime %></td>
+                            <td><%= et.comments %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            <form action="/agenthomepaginate" method="POST">
+                <label for="cars">Select page:</label>
+                <select id="cars" name="page">
+                    <% for (let page of p){ %>
+                        <option value="<%= page %>"><%= page %></option>
+                    <% } %>
+                </select>
+                <input type="submit">
+            </form>
+        </div>
+
+    </div><br>
+     <!--Footer Start-->
+     <div class="footer" style="margin-bottom:0">
+        <p>Signalyzer v2.0™ | Created by Rupert Tianzon & Ralph Lawrence Villamor</p>
+    </div>
+<!--Footer End-->
+<%- include('scripts/agenthomescript')%>
+</body>
+</html>

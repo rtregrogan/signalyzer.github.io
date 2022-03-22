@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+    <title>Schedule</title>
+    <!-- ion icons -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+	<!-- ion icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link rel="icon" href="https://dragonadm.neocities.org/signalizer/Capture.PNG" type="image/gif" sizes="16x16">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+        :root {
+            --main-color: linear-gradient(to right,#36d1dc,#5b86e5);
+            --color-dark: #1D2231;
+            --text-grey: #8390A2;
+            --static-color: #5b86e5;
+            --alter-color: #36d1dc;
+            --body-background: #f9f2f2;
+        }
+        /* scheduling css starts here */
+
+        .mainSchedContent {
+            display: grid;
+            grid-template-columns: 30% 70%;
+        }
+
+        .navbar {
+            margin-bottom: 0px;
+        }
+
+        .text-white { 
+            padding: 10px;
+        }
+
+        #welcome {
+            color: white;
+        }
+
+        .schedLeft,
+        .schedRight {
+            text-align: center;
+            margin: 1rem;
+        }
+
+        .calendarBody {
+            margin: 0.5rem;
+            display: grid;
+            grid-template-columns: 14% 14% 14% 14% 14% 14% 14%;
+        }
+
+        .weekday {
+            margin: 0.5rem;
+            text-align: center;
+            background: var(--static-color);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .monthDate {
+            border: 1px solid var(--static-color);
+            font-weight: bold;
+            height: 150px;
+        }
+
+        .dayContent {
+            margin: 0.5rem;
+            padding-top: 40px;
+            height: 100px;
+        }
+
+        .offDate {
+            margin: 0.5rem;
+            background: green;
+            padding-top: 40px;
+            height: 100px;
+            color: white;
+        }
+
+        .leaveDay {
+            margin: 0.5rem;
+            background: blue;
+            padding-top: 40px;
+            height: 100px;
+            color: white;
+        }
+
+        .leaveCreditsAccordion span {
+            font-size: 25px;
+            border: 1px solid white;
+            padding: 0.5rem;
+        }
+
+        .leaveHistoryTable {
+            margin-top: 1rem;
+        }
+
+        .leaveHistoryTD {
+            text-align: center;
+            padding: 0.5rem;
+            border: 1px solid var(--static-color);
+            width: 150px;
+            font-size: 17px;
+        }
+
+        .leaveCreditMinus {
+            background: red;
+            color: white;
+            font-weight: bold;
+        }
+
+        .leaveCreditPlus {
+            background: green;
+            color: white;
+            font-weight: bold;
+        }
+
+        .leaveAppFormDiv {
+            margin-top: 1rem;
+        }
+
+        .leaveAppForm .fromandto {
+            display: flex;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .fromandto input {
+            font-size: 20px;
+            width: 170px;
+            outline: none;
+            border: 1px solid var(--static-color);
+            text-align: center;
+            color: var(--static-color);
+        }
+
+        .fromandto input::placeholder {
+            color: var(--static-color);
+        }
+
+        .leaveType {
+            border: 1px solid var(--static-color);
+            margin-top: 0.5rem;
+            padding-left: 0;
+            width: 446px;
+        }
+
+        .leaveType select {
+            font-size: 20px;
+            width: 300px;
+            outline: none;
+            text-align: center;
+            color: var(--static-color);
+            border: none;
+            padding: 0.5rem;
+            left: 0;
+        }
+
+        .leaveType span {
+            font-size: 20px;
+            padding: 0.5rem;
+            right: 0;
+            margin-left: 0rem;
+            background: var(--static-color);
+            color: white;
+        }
+
+        .vlOptions {
+            font-size: 20px;
+            color: var(--static-color);
+            text-align: left;
+        }
+
+        .leaveReason {
+            margin-top: 0.5rem;
+            font-size: 20px;
+            border: 1px solid var(--static-color);
+            width: 446px;
+
+            padding-left: 0;
+        }
+
+        .leaveReason input {
+            border: none;
+            outline: none;
+            color: var(--static-color);
+            width: 430px;
+        }
+
+        .leaveReason input::placeholder {
+            color: var(--static-color);
+        }
+
+        .leaveAppForm button {
+            margin-top: 1rem;
+            font-size: 20px;
+            background: none;
+            border: 1px solid var(--static-color);
+            padding: 0.5rem;
+            color: var(--static-color);
+        }
+        .accordion {
+            background: var(--main-color);
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: center;
+            outline: none;
+            font-size: 20px;
+            transition: 1s;
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        .active, .accordion:hover {
+            background-color: #ccc; 
+        }
+        
+        .panel {
+            padding: 0 18px;
+            display: none;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        #Schedule-div {
+            margin-top: 5rem;
+        }
+
+        .SelectMonthdiv {
+            border: 1px solid var(--static-color);
+            font-size: 25px;
+            width: 25rem;
+            text-align: left;
+            padding-left: 1rem;
+        }
+
+        #SelectMonth {
+            margin-left: 0;
+            font-size: 25px;
+            width: 21rem;
+            border: none;
+            outline: none;
+        }
+
+        .pendingRequestLength {
+            background: red;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .vlRequestDiv {
+            margin-top: 1rem;
+            text-align: center;
+            display: block;
+            border: 1px solid var(--static-color);
+            padding: 0.5rem;
+        }
+
+        .leaveapprovalfield {
+            display: flex;
+            margin-top: 0.5rem;
+        }
+
+        .leaveapprovalfield input {
+            background: none;
+            border: 1px solid var(--static-color);
+            outline: none;
+        }
+
+        .leaveRequestLAbel {
+            font-size: 15px;
+            padding: 0.5rem;
+            right: 0;
+            margin-left: 0rem;
+            background: var(--static-color);
+            color: white;
+            width: 200px;
+            text-align: right;
+        }
+
+        .leaveapprovalfieldbtn {
+            margin-top: 1rem;
+        }
+
+        .teamSchedule {
+            display: flex;
+            overflow: scroll;
+            margin-top: 1rem;
+        }
+
+        .dayofmon {
+            border: 1px solid var(--static-color);
+            width: 300px;
+            margin-right: 0.5rem;
+        }
+
+        .agentScheduleOfDay {
+            display: inline-block;
+            white-space: nowrap;
+            padding: 0rem 0.5rem 0.5rem 0.5rem;
+        }
+
+        .dateNumber {
+            font-weight: bold;
+        }
+        /* scheduling css ends here */
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light fixed-top bg-dark">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/agenthome" id="welcome"><%=user.firstName%> | Scheduling</a>
+          </div>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="text-white" href="/adminhome">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-white" href="/adminmonitor">Monitor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-white" href="/adminschedule">Scheduling</a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-white" href="/rostermanagement">Roster</a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-white" href="/managetask">Manage Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="text-white" href="/adminpwreset">Reset Password</a>
+                </li>
+                <form action="/logout" method="POST" id="lgo">
+                    <button class="btn btn-danger btn-sm"><strong>Logout</strong></button>
+                </form>
+            </ul>
+        </div>
+    </nav>
+    <div class="page-div" id="Schedule-div">
+        <div class="mainSchedContent">
+            <div class="schedLeft">
+                <div class="leaveCredits">
+                    <button class="accordion leaveCreditsAccordion">Your Leave Credits: 
+                        <% if(leaveCreditsTotalToSend && leaveCreditsTotalToSend.length){ %>
+                            <span><%=leaveCreditsTotalToSend[0].hrs%> Hrs</span> or <span><%=leaveCreditsTotalToSend[0].days%> day/s</span>
+                        <% } %>
+                    </button>
+                    <div class="panel">
+                        <table class="leaveHistoryTable">
+                            <tbody>
+                                <tr class="leaveHistoryTR">
+                                    <td class="leaveHistoryTD leaveDate">Date</td>
+                                    <td class="leaveHistoryTD leaveTypeTD">Type</td>
+                                    <td class="leaveHistoryTD leaveTypeTD">Hours</td>
+                                    <td class="leaveHistoryTD leaveTypeTD">Day/s</td>
+                                </tr>
+                                <% if(leaveCreditstoSend && leaveCreditstoSend.length){ %>
+                                    <% for(let leaveCredits of leaveCreditstoSend){ %>
+                                        <tr class="leaveHistoryTR">
+                                            <td class="leaveHistoryTD leaveDate"><%=leaveCredits.date%></td>
+                                            <td class="leaveHistoryTD leaveTypeTD"><%=leaveCredits.type%></td>
+                                            <td class="leaveHistoryTD leaveTypeTD"><%=leaveCredits.hrs%></td>
+                                            <td class="leaveHistoryTD leaveTypeTD"><%=leaveCredits.days%></td>
+                                        </tr>
+                                    <% } %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="leaveForm">
+                    <button class="accordion">Leave Application Form</button>
+                    <div class="panel">
+                        <div class="leaveAppFormDiv">
+                            <form action="/leaveapplication" method="POST" class="leaveAppForm">
+                                <div class="fromandto">
+                                    <input type="text" name="from" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="From" required>
+                                    <span> : </span>
+                                    <input type="text" name="to" onfocus="this.type='date'" onfocusout="this.type='text'" placeholder="To" required>
+                                </div>
+                                <div class="leaveType">
+                                    <span>Type of Leave</span>
+                                    <select name="leaveType" required>
+                                        <option value="">Select</option>
+                                        <option value="Vacation Leave">Vacation Leave</option>
+                                        <option value="Emergency Leave">Emergency Leave</option>
+                                        <option value="Medical Leave">Medical Leave</option>
+                                        <option value="Unpaid Leave">Unpaid Leave</option>
+                                        <option value="Bereavement Leave">(Special) Bereavement Leave</option>
+                                        <option value="Solo Parent Leave">(Special) Solo Parent Leave</option>
+                                        <option value="Maternity Leave">(Special) Maternity Leave</option>
+                                        <option value="Paternity Leave">(Special) Paternity Leave</option>
+                                    </select>
+                                </div>
+                                <div class="vlOptions">
+                                    <input type="radio" id="wholeDay" name="vlOptionsFill" value="Whole Day" style="height:20px; width:20px;" checked>
+                                    <label for="wholeDay">Whole Day</label><br>
+                                    <input type="radio" id="HalfDayFirstHalf" name="vlOptionsFill" value="Half Day First-Half" style="height:20px; width:20px;">
+                                    <label for="HalfDayFirstHalf">Half Day First-Half</label><br>
+                                    <input type="radio" id="HalfDaySecondHalf" name="vlOptionsFill" value="Half Day Second-Half" style="height:20px; width:20px;">
+                                    <label for="HalfDaySecondHalf">Half Day Second-Half</label><br>
+                                </div>
+                                <div class="leaveReason">
+                                    <input type="text" name="leaveReason" placeholder="Reason for Leave">
+                                </div>
+                                <button type="submit">Submit Request</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="pendingRequests">
+                    <button class="accordion">
+                        <% if(pendingRequestsDatatoSend && pendingRequestsDatatoSend.length){ %>
+                            <span class="pendingRequestLength"><%=pendingRequestsDatatoSend.length%></span>
+                        <% } %>
+                        Pending Approval</button>
+                    <div class="panel">
+                        <% if(pendingRequestsDatatoSend && pendingRequestsDatatoSend.length){ %>
+                            <% for (let LeaveRequest of pendingRequestsDatatoSend){ %>
+                                <div class="vlRequestDiv">
+                                    <form action="" method="">
+                                        <div class="leaveapprovalfield">
+                                            <input type="text" name="schedID" value="<%=LeaveRequest[0]%>" disabled hidden>
+                                        </div>
+                                        <div class="leaveapprovalfield">
+                                            <input type="text" name="requestID" value="<%=LeaveRequest[10]%>" disabled hidden>
+                                        </div>
+                                        <div class="leaveapprovalfield">
+                                            <span class="leaveRequestLAbel">Date</span>
+                                            <input type="text" name="date" value="<%=LeaveRequest[11]%>" disabled>
+                                        </div>
+                                        <div class="leaveapprovalfield">
+                                            <span class="leaveRequestLAbel">Name</span>
+                                            <input type="text" name="agentNAme" value="<%=LeaveRequest[9]%>" disabled>
+                                        </div>
+                                        <div class="leaveapprovalfield">
+                                            <span class="leaveRequestLAbel">Leave Type</span>
+                                            <input type="text" name="leaveType" value="<%=LeaveRequest[3]%>" disabled>
+                                        </div>
+                                        <div class="leaveapprovalfield">
+                                            <span class="leaveRequestLAbel">Reason</span>
+                                            <input type="text" name="leaveReason" value="<%=LeaveRequest[5]%>" disabled>
+                                        </div>
+                                        <div class="leaveapprovalfield">
+                                            <span class="leaveRequestLAbel">VL Options</span>
+                                            <input type="text" name="leaveReason" value="<%=LeaveRequest[4]%>" disabled>
+                                        </div>
+                                        <button type="button" class="leaveapprovalfieldbtn btn btn-success" data-toggle="modal" data-target="#approve<%=LeaveRequest[0]%>">APPROVE</button>
+                                        <button type="button" class="leaveapprovalfieldbtn btn btn-danger" data-toggle="modal" data-target="#decline<%=LeaveRequest[0]%>">DECLINE</button>
+                                    </form>
+                                </div>
+                                <!-- approve leave request modal -->
+                                <div class="modal fade" id="approve<%=LeaveRequest[0]%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          Approving Leave Request for <%=LeaveRequest[9]%> on <%=LeaveRequest[11]%>
+                                          <form action="/approvevl" method="POST">
+                                            <input type="text" name="schedID" value="<%=LeaveRequest[0]%>" hidden>
+                                            <input type="text" name="requestID" value="<%=LeaveRequest[10]%>" hidden>
+                                            <input type="text" name="userID" value="<%=LeaveRequest[1]%>" hidden>
+                                            <input type="text" name="actualDate" value="<%=LeaveRequest[11]%>" hidden>
+                                            <input type="text" name="leaveType" value="<%=LeaveRequest[3]%>" hidden>
+                                            <input type="text" name="vlOptions" value="<%=LeaveRequest[4]%>" hidden>
+                                            <button type="submit" class="btn btn-success">Confirm</button>
+                                          </form>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <!-- decline leave request modal -->
+                                <div class="modal fade" id="decline<%=LeaveRequest[0]%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          Declining Leave Request for <%=LeaveRequest[9]%> on <%=LeaveRequest[11]%>
+                                          <form action="/declinevl" method="POST">
+                                            <input type="text" name="schedID" value="<%=LeaveRequest[0]%>" hidden>
+                                            <input type="text" name="requestID" value="<%=LeaveRequest[10]%>" hidden>
+                                            <input type="text" name="userID" value="<%=LeaveRequest[1]%>" hidden>
+                                            <input type="text" name="actualDate" value="<%=LeaveRequest[11]%>" hidden>
+                                            <input type="text" name="leaveType" value="<%=LeaveRequest[3]%>" hidden>
+                                            <input type="text" name="vlOptions" value="<%=LeaveRequest[4]%>" hidden>
+                                            <button type="submit" class="btn btn-danger">Decline</button>
+                                          </form>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            <% } %> 
+                        <% } %>
+                    </div>
+                </div>
+                <div class="teamLeavecrt">
+                    <button class="accordion">Team Leave Credits</button>
+                    <div class="panel">
+                        <div class="leaveAppFormDiv">
+                            Team Leave Credits here
+                        </div>
+                    </div>
+                </div>
+                <div class="teamSched">
+                    <button class="accordion">Team Schedule</button>
+                    <div class="panel">
+                        <div class="leaveAppFormDiv">
+                            Team Schedule
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="schedRight">
+                <!-- <h4><i class="icon ion-android-sort"></i> AUGUST 2021</h4>
+                <i class="icon ion-android-sort"></i> -->
+                <div class="SelectMonthdiv">
+                    <i class="icon ion-android-sort"></i>
+                    <select id="SelectMonth" onchange="getMonth()">
+                        <option value="<%=monthFilterToSend%>"><%=monthFilterToSend%></option>
+                        <% for(let mffd of monthsToFilterFinalDataToSend){ %>
+                            <option value="<%=mffd%>"><%=mffd%></option>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="agentSelect" hidden>
+                    <i class="icon ion-android-sort">Agent Select</i>
+                    <select id="selectAgent">
+                        <option value="ALL">ALL</option>
+                        <% if(teamScheduleToSend && teamScheduleToSend.length){ %>
+                            <% for(let tls of teamScheduleToSend){ %>
+                                <% for(u=1; u<tls.length; u++){ %>
+                                    <option value="<%=tls[u][0][5]%>"><%=tls[u][0][5]%></option>
+                                <% } %>
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="teamSchedule">
+                    <% if(teamScheduleToSend && teamScheduleToSend.length){ %>
+                        <% for(let tls of teamScheduleToSend){ %>
+                            <div class="dayofmon">
+                                <div class="dateNumber">
+                                    <span><%= tls[0]%></span>
+                                </div>
+                                <% for(u=1; u<tls.length; u++){ %>
+                                    <div class="agentScheduleOfDay">
+                                        <span><%=tls[u][0][5]%></span> - <span class="indSched"><%=tls[u][0][9]%></span>
+                                    </div>
+                                <% } %>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="calendarBody">
+                    <div class="weekday sun">
+                        <h5>SUN</h5>
+                    </div>
+                    <div class="weekday mon">
+                        <h5>MON</h5>
+                    </div>
+                    <div class="weekday tue">
+                        <h5>TUE</h5>
+                    </div>
+                    <div class="weekday wed">
+                        <h5>WED</h5>
+                    </div>
+                    <div class="weekday thu">
+                        <h5>THU</h5>
+                    </div>
+                    <div class="weekday fri">
+                        <h5>FRI</h5>
+                    </div>
+                    <div class="weekday sat">
+                        <h5>SAT</h5>
+                    </div>
+
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week1day1" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week1day2" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week1day3" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week1day4" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week1day5" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week1day6" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week1day7" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+
+
+
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week2day1" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week2day2" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week2day3" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week2day4" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week2day5" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week2day6" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week2day7" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+
+
+
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week3day1" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week3day2" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week3day3" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week3day4" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week3day5" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week3day6" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week3day7" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+
+
+
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week4day1" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week4day2" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week4day3" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week4day4" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week4day5" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week4day6" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week4day7" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+
+
+
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week5day1" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week5day2" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week5day3" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week5day4" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week5day5" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week5day6" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week5day7" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+
+
+
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week6day1" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week6day2" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week6day3" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week6day4" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week6day5" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week6day6" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                    <div class="monthDate">
+                        <div class="dayBody">
+                            <h6 id="week6day7" class="dayBodyh6"></h6>
+                        </div>
+                        <div class="dayContent">
+                            <h5 class="weekdaysched"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let acc = document.getElementsByClassName("accordion");
+        let i;
+
+        for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            let panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+            panel.style.display = "none";
+            } else {
+            panel.style.display = "block";
+            }
+        });
+        }
+
+        let leaveHistoryTD = document.querySelectorAll('.leaveHistoryTD')
+        // console.log(leaveHistoryTD)
+        for(i=0; i<leaveHistoryTD.length; i++){
+            if(leaveHistoryTD[i].innerHTML == "Credit"){
+                leaveHistoryTD[i].classList.add('leaveCreditPlus')
+            }
+            if(leaveHistoryTD[i].innerHTML == "Debit"){
+                leaveHistoryTD[i].classList.add('leaveCreditMinus')
+            }
+        }
+
+        let dayBodyh6 = document.querySelectorAll('.dayBodyh6')
+        let SelectMonth = document.getElementById('SelectMonth')
+        let weekdaysched = document.querySelectorAll('.weekdaysched')
+        let dayContent = document.querySelectorAll('.dayContent')
+        function getMonth(){
+            let daysofMonthToView = []
+            for(i=0; i<dayBodyh6.length; i++){
+                dayBodyh6[i].innerHTML = ""
+            }
+            for (i=0; i<weekdaysched.length; i++){
+                weekdaysched[i].innerHTML = ""
+                weekdaysched[i].removeAttribute("id")
+            }
+            for (i=0; i<dayContent.length; i++){
+                dayContent[i].classList.remove("offDate")
+                dayContent[i].classList.remove("leaveDay")
+            }
+            // console.log(SelectMonth.value)
+            fetch('/calendar')
+            .then((res) => {
+                return res.json()
+            })
+            .then((data) => {
+                // console.log(data)
+                for(i=0; i<data.length; i++){
+                    if(data[i].MonthFilter == SelectMonth.value){
+                        daysofMonthToView.push(data[i])
+                    }
+                }
+                // console.log(daysofMonthToView)
+                for(i=0; i<dayBodyh6.length; i++){
+                    // console.log(dayBodyh6[i].id)
+                    let parentdiv = dayBodyh6[i].parentNode
+                    let nextdiv = parentdiv.nextElementSibling
+                    let nextdivchild = nextdiv.children
+                    // console.log(nextdivchild[0])
+                    for(o=0; o<daysofMonthToView.length; o++){
+                        if(daysofMonthToView[o].WeekDayNumber == dayBodyh6[i].id){
+                            dayBodyh6[i].innerHTML = daysofMonthToView[o].Day
+                            nextdivchild[0].id = `${daysofMonthToView[o].Month}${daysofMonthToView[o].Day}${daysofMonthToView[o].Year}`
+                        }
+                    }
+                }
+
+                fetch('/schedule/agentschedule')
+                .then((res) => {
+                    return res.json()
+                })
+                .then((sched) => {
+                    // console.log(sched)
+                    // let weekdaysched = document.querySelectorAll('.weekdaysched')
+                    for(i=0; i<sched.length; i++){
+                        
+                        for(o=0; o<weekdaysched.length; o++){
+                            if(weekdaysched[o].id == sched[i].agentDateID){
+                                weekdaysched[o].innerHTML = sched[i].schedule
+                            }
+                        }
+                    }
+                    for (i=0; i<weekdaysched.length; i++){
+                        let parentdiv = weekdaysched[i].parentElement
+                        if(weekdaysched[i].innerHTML == "OFF"){
+                            parentdiv.classList.add("offDate")
+                        }
+                        if(weekdaysched[i].innerHTML == "LEAVE"){
+                            parentdiv.classList.add("leaveDay")
+                        }
+                    }
+                })
+
+            })
+
+            getTeamSched()
+        }
+
+        getMonth()
+
+
+        function getTeamSched(){
+            console.log(SelectMonth.value)
+            fetch('/teamScheduleApi')
+            .then((res) => {
+                return res.json()
+            })
+            .then((teamSched) => {
+                // console.log(teamSched)
+                for(i=0; i<teamSched.length; i++){
+                    let allDate = new Date(teamSched[i][4])
+                    console.log(`${allDate.getMonth()} - ${teamSched[i][4]}`)
+                }
+            })
+        }
+
+
+        let agentScheduleOfDay = document.querySelectorAll('.agentScheduleOfDay')
+        for(i=0; i<agentScheduleOfDay.length; i++){
+            if(agentScheduleOfDay[i].innerHTML.includes("LEAVE")){
+                agentScheduleOfDay[i].style.background = "blue"
+                agentScheduleOfDay[i].style.color = "white"
+                agentScheduleOfDay[i].style.padding = "5px 10px 5px 10px"
+            }
+            // console.log(agentScheduleOfDay[i].innerHTML)
+        }
+        
+    </script>
+</body>
+</html>

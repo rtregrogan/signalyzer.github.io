@@ -1,0 +1,78 @@
+<script>
+    function str() {
+        document.getElementById("nptask").submit();
+    }
+
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.validated-form')
+
+        // Loop over them and prevent submission
+        Array.from(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+    function convertTZ(date, tzString) {
+        return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
+    }
+
+    let stime = document.querySelectorAll('.ongtime');
+    let runtime = document.querySelectorAll('.runtime');
+    setInterval(function() {
+        fetch('/getservertime/api')
+            .then((res) => {
+                return res.json()
+            })
+            .then((data) => {
+                let servertime = data.servertime
+                for (i=0; i<stime.length; i++) {
+                let actime = stime[i].innerHTML
+                let start = new Date(actime).getTime()
+                let now = new Date(servertime).getTime()
+                let distance = now - start;
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                runtime[i].innerHTML=hours + "h " + minutes + "m " + seconds + "s"
+                }
+            })
+    }, 1000)
+
+    function getEndModal(btnID){
+        let taskIDtoEnd = btnID.replace('btn', '')
+        let modalforTask = document.getElementById(`modal${taskIDtoEnd}`)
+        let closeModal = document.getElementById(`close${taskIDtoEnd}`)
+        modalforTask.style.display = "block"
+    }
+
+    function closeModal(closeID){
+        let taskModalToClose = closeID.replace('close', '')
+        let modalforTask = document.getElementById(`modal${taskModalToClose}`)
+        modalforTask.style.display = "none"
+    }
+
+    function closeAlertDanger(){
+        let AlertTCFDanger = document.getElementById('AlertTCFDanger')
+        AlertTCFDanger.style.display = "none"
+    }
+
+    function gettcfForm(){
+        let tcfmodal = document.getElementById('tcfmodal')
+        console.log(tcfmodal)
+        tcfmodal.style.display = "block"
+    }
+
+    function closetcfModal(){
+        let tcfmodal = document.getElementById('tcfmodal')
+        tcfmodal.style.display = "none"
+    }
+</script>
